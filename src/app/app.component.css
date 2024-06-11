@@ -1,0 +1,34 @@
+.button-group {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  height: 90px;
+}
+
+.button-group button {
+  background: none; /* Remove background */
+  color: white; /* Set text color to white */
+  border: none; /* Remove borders if needed */
+  margin-left: 10px; /* Add some spacing between buttons */
+}
+
+.button-group button mat-icon {
+  font-size: 24px; /* Increase icon size */
+}
+
+.content {
+  padding: 20px;
+}
+
+.toolbar {
+  height: 120px; /* Adjust the height to your preferred size */
+  padding-right: 16px; /* Add padding as needed */
+  font-size: 40px; /* Adjust the font size as needed */
+  background-color: #71a2b5;
+  color: whitesmoke;
+}
+
+.toolbar-image {
+  height: 120px; /* Adjust the image height as needed */
+  margin-right: 16px; /* Adjust the margin as needed to separate the image from the text */
+}

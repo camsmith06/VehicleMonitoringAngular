@@ -1,0 +1,18 @@
+<mat-toolbar class="toolbar">
+  <img src="assets/HurlinghamClubLogo.jpeg" alt="Logo" class="toolbar-image">
+  <span>Vehicle Monitoring</span>
+  <div class="button-group">
+    <button mat-icon-button (click)="navigateToDashboard()" matTooltip="Dashboard">
+      <mat-icon>dashboard</mat-icon>
+    </button>
+    <button mat-icon-button (click)="navigateToHistory()" matTooltip="History">
+      <mat-icon>history</mat-icon>
+    </button>
+    <button mat-icon-button (click)="navigateToSettings()" matTooltip="Settings">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

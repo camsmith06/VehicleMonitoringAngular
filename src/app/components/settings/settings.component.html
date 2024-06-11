@@ -1,0 +1,83 @@
+<h1>Settings</h1>
+
+<div class="example-action-buttons">
+    <button mat-button (click)="accordion.openAll()">Expand All</button>
+    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+</div>
+<mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Camera Directions
+            </mat-panel-title>
+            <mat-panel-description>
+                Adjust camera directions
+                <mat-icon>camera_enhance</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="cameraDirectionForm">
+            <mat-form-field>
+                <mat-label>Main Gate East</mat-label>
+                <mat-select formControlName="mainGateEast">
+                    <mat-option value="Entrance">Entrance</mat-option>
+                    <mat-option value="Exit">Exit</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Main Gate West</mat-label>
+                <mat-select formControlName="mainGateWest">
+                    <mat-option value="Entrance">Entrance</mat-option>
+                    <mat-option value="Exit">Exit</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Back Gate East</mat-label>
+                <mat-select formControlName="backGateEast">
+                    <mat-option value="Entrance">Entrance</mat-option>
+                    <mat-option value="Exit">Exit</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Back Gate West</mat-label>
+                <mat-select formControlName="backGateWest">
+                    <mat-option value="Entrance">Entrance</mat-option>
+                    <mat-option value="Exit">Exit</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Alerts
+            </mat-panel-title>
+            <mat-panel-description>
+                Choose who/how to be alerted
+                <mat-icon>textsms</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="alertsForm">
+            <mat-form-field>
+                <input matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Email Address" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Contact Method</mat-label>
+                <mat-select formControlName="contactMethod">
+                    <mat-option value="Email">Email</mat-option>
+                    <mat-option value="Text">Text</mat-option>
+                    <mat-option value="No Contact">No Contact</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-expansion-panel>
+</mat-accordion>

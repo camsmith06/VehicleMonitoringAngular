@@ -1,0 +1,19 @@
+<h1>History</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Vehicles Entered</th>
+      <th>Maximum Vehicles on Site</th>
+      <th>Camera with Most Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableData">
+      <td>{{ row.date }}</td>
+      <td>{{ row.vehiclesEntered }}</td>
+      <td>{{ row.maxVehiclesOnSite }}</td>
+      <td>{{ row.cameraActivity }}</td>
+    </tr>
+  </tbody>
+</table>

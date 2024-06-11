@@ -1,0 +1,36 @@
+# Build pipeline
+trigger:
+  batch: false
+  branches:
+    include:
+     - master
+  paths:
+    exclude:
+     - readme.md
+pool:
+  vmImage: ubuntu-latest
+steps:
+ - task: NodeTool@0
+   displayName: 'Use Node 18.x'
+   inputs:
+     versionSpec: 18.x
+ - script: |
+     npm install -g @angular/cli
+   displayName: 'install angular cli'
+ - task: Npm@1
+   displayName: 'npm install '
+   inputs:
+     workingDir: 'vehicle-monitoring-app'
+     verbose: false
+ - task: Npm@1
+   displayName: 'npm build'
+   inputs:
+     command: custom
+     workingDir: 'vehicle-monitoring-app'
+     verbose: false
+     customCommand: 'run build'
+ - task: PublishBuildArtifacts@1
+   inputs:
+     PathtoPublish: 'dist'
+     ArtifactName: 'app'
+     publishLocation: 'Container'

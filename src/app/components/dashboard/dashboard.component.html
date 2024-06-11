@@ -1,0 +1,46 @@
+<div class="dashboard">
+    <div class="latest-time">Latest Verkada Update Time: {{ latestDataTime }}</div>
+    <div class="top-row">
+        <div class="box">
+            <h2>Vehicles Entered</h2>
+            <div class="value">{{ vehiclesIn }}</div>
+        </div>
+        <div class="operator">-</div>
+        <div class="box">
+            <h2>Vehicles Left</h2>
+            <div class="value">{{ vehiclesOut }}</div>
+        </div>
+        <div class="operator">=</div>
+        <div class="box">
+            <h2>Vehicles On Site</h2>
+            <div class="value">{{ vehiclesIn - vehiclesOut }}</div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="graph">
+          <div class="chart-title">Main Gate Trends</div>
+          <ngx-charts-line-chart
+            [results]="mainGateLineChartData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [legend]="true"
+            [xAxisTickFormatting]="formatXAxisTick">
+          </ngx-charts-line-chart>
+        </div>
+        <div class="graph">
+          <div class="chart-title">Back Gate Trends</div>
+          <ngx-charts-line-chart
+            [results]="backGateLineChartData"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [legend]="true"
+            [xAxisTickFormatting]="formatXAxisTick">
+          </ngx-charts-line-chart>
+        </div>
+    </div>
+</div>
