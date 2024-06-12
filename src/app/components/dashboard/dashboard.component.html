@@ -1,4 +1,7 @@
-<div class="dashboard">
+<div *ngIf="loading">
+  <app-loading></app-loading>
+</div>
+<div *ngIf="!loading" class="dashboard">
     <div class="latest-time">Latest Verkada Update Time: {{ latestDataTime }}</div>
     <div class="top-row">
         <div class="box">

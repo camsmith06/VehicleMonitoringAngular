@@ -22,6 +22,7 @@ import {MatButtonModule} from '@angular/material/button';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     HistoryComponent,
     SettingsComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

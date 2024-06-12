@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit {
   mainGateLineChartData: { name: string, series: { name: string, value: number }[] }[] = [];
   backGateLineChartData: { name: string, series: { name: string, value: number }[] }[] = [];
 
+  loading: boolean = true;
+
   constructor(private vehiclesService: VehiclesService) {}
 
   ngOnInit(): void {
@@ -26,7 +28,11 @@ export class DashboardComponent implements OnInit {
       this.vehiclesIn = data.vehiclesIn;
       this.vehiclesOut = data.vehiclesOut;
       this.setChartData(data.mainGateTrendData, data.backGateTrendData);
-      this.setLatestDataTime(data.mainGateTrendData); 
+      this.setLatestDataTime(data.mainGateTrendData);
+      this.loading = false; // Set loading to false once data is loaded
+    }, (error) => {
+      console.error('Error fetching vehicle trends', error);
+      this.loading = false;
     });
   }
 
@@ -55,7 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private setLatestDataTime(mainGateData: TrendData): void {
-    const endDates = mainGateData.inTrends.map(trend => new Date(trend.end).getTime())
+    const endDates = mainGateData.inTrends.map(trend => new Date(trend.end).getTime());
     const latestTime = new Date(Math.max(...endDates));
     this.latestDataTime = this.formatTime(latestTime.toISOString());
   }
@@ -74,5 +80,5 @@ export class DashboardComponent implements OnInit {
 
   public formatXAxisTick(label: string): string {
     return label.split(' to ')[0];
-}
+  }
 }
