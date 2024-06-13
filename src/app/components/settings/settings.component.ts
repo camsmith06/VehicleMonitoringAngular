@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import {MatAccordion } from '@angular/material/expansion';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit{
+export class SettingsComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   cameraDirectionForm!: FormGroup;
@@ -24,10 +24,31 @@ export class SettingsComponent implements OnInit{
     });
 
     this.alertsForm = this.formBuilder.group({
-      name: 'Glynn Gordon',
-      phoneNumber: '07825123456',
-      email: 'glynn@tellivue.com',
-      contactMethod: 'Email',
+      alerts: this.formBuilder.array([])
+    });
+
+    // Initialize with one alert
+    this.addAlert();
+  }
+
+  get alerts(): FormArray {
+    return this.alertsForm.get('alerts') as FormArray;
+  }
+
+  addAlert(): void {
+    this.alerts.push(this.createAlert());
+  }
+
+  removeAlert(index: number): void {
+    this.alerts.removeAt(index);
+  }
+
+  createAlert(): FormGroup {
+    return this.formBuilder.group({
+      name: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      contactMethod: ['Email', Validators.required]
     });
   }
 }

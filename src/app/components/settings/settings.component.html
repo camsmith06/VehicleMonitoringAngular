@@ -15,7 +15,7 @@
                 <mat-icon>camera_enhance</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <form [formGroup]="cameraDirectionForm">
+        <form [formGroup]="cameraDirectionForm" class="form-group">
             <mat-form-field>
                 <mat-label>Main Gate East</mat-label>
                 <mat-select formControlName="mainGateEast">
@@ -58,26 +58,33 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <form [formGroup]="alertsForm">
-            <mat-form-field>
-                <input matInput placeholder="Name" formControlName="name">
-            </mat-form-field>
+            <div formArrayName="alerts" class="form-group">
+                <div *ngFor="let alert of alerts.controls; let i = index" [formGroupName]="i" class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="Name" formControlName="name">
+                    </mat-form-field>
 
-            <mat-form-field>
-                <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-            </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                    </mat-form-field>
 
-            <mat-form-field>
-                <input matInput placeholder="Email Address" formControlName="email">
-            </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Email Address" formControlName="email">
+                    </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Contact Method</mat-label>
-                <mat-select formControlName="contactMethod">
-                    <mat-option value="Email">Email</mat-option>
-                    <mat-option value="Text">Text</mat-option>
-                    <mat-option value="No Contact">No Contact</mat-option>
-                </mat-select>
-            </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Contact Method</mat-label>
+                        <mat-select formControlName="contactMethod">
+                            <mat-option value="Email">Email</mat-option>
+                            <mat-option value="Text">Text</mat-option>
+                            <mat-option value="No Contact">No Contact</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button mat-button (click)="removeAlert(i)">Remove</button>
+                </div>
+            </div>
         </form>
+        <button mat-button (click)="addAlert()">Add Alert</button>
     </mat-expansion-panel>
 </mat-accordion>
