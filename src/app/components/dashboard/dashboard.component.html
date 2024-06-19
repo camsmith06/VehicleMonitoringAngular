@@ -5,18 +5,23 @@
     <div class="latest-time">Latest Verkada Update Time: {{ latestDataTime }}</div>
     <div class="top-row">
         <div class="box">
-            <h2>Vehicles Entered</h2>
-            <div class="value">{{ vehiclesIn }}</div>
+          <h2>Start Of Day Count</h2>
+          <div class="value">{{ startOfDayCount }}</div>
+        </div>
+        <div class="operator">+</div>
+        <div class="box">
+          <h2>Vehicles Entered</h2>
+          <div class="value">{{ vehiclesIn }}</div>
         </div>
         <div class="operator">-</div>
         <div class="box">
-            <h2>Vehicles Left</h2>
-            <div class="value">{{ vehiclesOut }}</div>
+          <h2>Vehicles Left</h2>
+          <div class="value">{{ vehiclesOut }}</div>
         </div>
         <div class="operator">=</div>
         <div class="box">
-            <h2>Vehicles On Site</h2>
-            <div class="value">{{ vehiclesIn - vehiclesOut }}</div>
+          <h2>Vehicles On Site</h2>
+          <div class="value">{{ startOfDayCount + vehiclesIn - vehiclesOut }}</div>
         </div>
     </div>
 
@@ -30,7 +35,8 @@
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
             [legend]="true"
-            [xAxisTickFormatting]="formatXAxisTick">
+            [xAxisTickFormatting]="formatXAxisTick"
+            [yAxisLabel]="'Count'">
           </ngx-charts-line-chart>
         </div>
         <div class="graph">
@@ -42,7 +48,8 @@
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
             [legend]="true"
-            [xAxisTickFormatting]="formatXAxisTick">
+            [xAxisTickFormatting]="formatXAxisTick"
+            [yAxisLabel]="'Count'">
           </ngx-charts-line-chart>
         </div>
     </div>

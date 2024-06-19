@@ -12,6 +12,7 @@ import { VehiclesService } from 'src/app/services/vehicles.service';
 export class DashboardComponent implements OnInit {
   chartTitle = 'Test Chart Title';
 
+  startOfDayCount: number = 0;
   vehiclesIn: number = 0;
   vehiclesOut: number = 0;
   latestDataTime: string = '';
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.vehiclesService.getVehicleTrends().subscribe((data: VehicleTrend) => {
+      this.startOfDayCount = data.startOfDayCount
       this.vehiclesIn = data.vehiclesIn;
       this.vehiclesOut = data.vehiclesOut;
       this.setChartData(data.mainGateTrendData, data.backGateTrendData);
