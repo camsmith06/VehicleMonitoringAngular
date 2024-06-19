@@ -81,6 +81,8 @@ export class DashboardComponent implements OnInit {
   }
 
   public formatXAxisTick(label: string): string {
-    return label.split(' to ')[0];
+    const startTime = label.split(' to ')[0];
+    const minutes = startTime.split(':')[1];
+    return minutes === '00' ? startTime : '';
   }
 }

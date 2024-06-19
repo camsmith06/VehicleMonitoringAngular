@@ -37,7 +37,7 @@
     text-align: center;
     color: #495057; /* Dark grey text */
     font-size: 40px; /* Adjusted font size */
-    width: 250px; /* Keep width consistent */
+    width: 200px; /* Keep width consistent */
     height: 150px; /* Keep height consistent */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a professional look */
     display: flex;
@@ -65,12 +65,16 @@
 }
 
 .graph {
-    width: 45%; /* Increased width for better visibility */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 45%; /* Adjust width for better visibility */
     height: 100%; /* Use full height */
     background-color: #ffffff; /* White background for individual graph containers */
-    padding: 10px;
+    padding: 30px 20px; /* Adjust padding to ensure title and x-axis labels are visible */
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a professional look */
 }
 
