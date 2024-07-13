@@ -10,17 +10,16 @@ import { MatAccordion } from '@angular/material/expansion';
 export class SettingsComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  cameraDirectionForm!: FormGroup;
+  calibrationForm!: FormGroup;
   alertsForm!: FormGroup;
+  timeIntervals: string[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.cameraDirectionForm = this.formBuilder.group({
-      mainGateEast: 'Entrance',
-      mainGateWest: 'Exit',
-      backGateEast: 'Entrance',
-      backGateWest: 'Exit',
+    this.calibrationForm = this.formBuilder.group({
+      time: ['', Validators.required],
+      vehicleCount: ['', Validators.required]
     });
 
     this.alertsForm = this.formBuilder.group({
@@ -29,10 +28,21 @@ export class SettingsComponent implements OnInit {
 
     // Initialize with one alert
     this.addAlert();
+    this.generateTimeIntervals();
   }
 
   get alerts(): FormArray {
     return this.alertsForm.get('alerts') as FormArray;
+  }
+
+  generateTimeIntervals() {
+    const interval = 15;
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += interval) {
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        this.timeIntervals.push(time);
+      }
+    }
   }
 
   addAlert(): void {
@@ -50,5 +60,11 @@ export class SettingsComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       contactMethod: ['Email', Validators.required]
     });
+  }
+
+  submitCalibration() {
+    if (this.calibrationForm.valid) {
+      console.log(this.calibrationForm.value);
+    }
   }
 }

@@ -8,42 +8,26 @@
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Camera Directions
+                Calibration
             </mat-panel-title>
             <mat-panel-description>
-                Adjust camera directions
-                <mat-icon>camera_enhance</mat-icon>
+                Adjust calibration settings
+                <mat-icon>settings</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <form [formGroup]="cameraDirectionForm" class="form-group">
+        <form [formGroup]="calibrationForm" class="form-group">
             <mat-form-field>
-                <mat-label>Main Gate East</mat-label>
-                <mat-select formControlName="mainGateEast">
-                    <mat-option value="Entrance">Entrance</mat-option>
-                    <mat-option value="Exit">Exit</mat-option>
+                <mat-label>Time</mat-label>
+                <mat-select formControlName="time">
+                    <ng-container *ngFor="let time of timeIntervals">
+                        <mat-option [value]="time">{{ time }}</mat-option>
+                    </ng-container>
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Main Gate West</mat-label>
-                <mat-select formControlName="mainGateWest">
-                    <mat-option value="Entrance">Entrance</mat-option>
-                    <mat-option value="Exit">Exit</mat-option>
-                </mat-select>
+                <input matInput placeholder="Vehicle Count" formControlName="vehicleCount">
             </mat-form-field>
-            <mat-form-field>
-                <mat-label>Back Gate East</mat-label>
-                <mat-select formControlName="backGateEast">
-                    <mat-option value="Entrance">Entrance</mat-option>
-                    <mat-option value="Exit">Exit</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Back Gate West</mat-label>
-                <mat-select formControlName="backGateWest">
-                    <mat-option value="Entrance">Entrance</mat-option>
-                    <mat-option value="Exit">Exit</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <button mat-button (click)="submitCalibration()">Submit</button>
         </form>
     </mat-expansion-panel>
 
