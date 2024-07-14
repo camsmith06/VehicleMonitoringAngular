@@ -27,7 +27,16 @@
             <mat-form-field>
                 <input matInput placeholder="Vehicle Count" formControlName="vehicleCount">
             </mat-form-field>
-            <button mat-button (click)="submitCalibration()">Submit</button>
+            <button mat-button (click)="submitCalibration()" [disabled]="isLoading">Submit</button>
+            <mat-spinner *ngIf="isLoading" diameter="30"></mat-spinner>
+            <div *ngIf="isSuccess" class="success-message-box">
+                <mat-icon color="primary">check_circle</mat-icon>
+                <p class="success-message">Calibration submitted successfully!</p>
+                <button mat-icon-button (click)="dismissSuccessMessage()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
         </form>
     </mat-expansion-panel>
 

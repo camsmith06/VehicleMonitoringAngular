@@ -7,11 +7,16 @@ import { VehicleTrend } from '../models/vehicle-trend.model'
   providedIn: 'root'
 })
 export class VehiclesService {
-  private apiUrl = 'https://verakada-func-dev.azurewebsites.net/api/GetVehicleCount'
+  private apiUrl = 'https://verakada-func-dev.azurewebsites.net/api/'
 
   constructor(private http:HttpClient) { }
 
   getVehicleTrends() : Observable<VehicleTrend> {
-    return this.http.get<VehicleTrend>(this.apiUrl);
+    return this.http.get<VehicleTrend>(this.apiUrl + 'GetVehicleCount');
+  }
+
+  submitCalibration(hour: number, minute: number, calibration: number): Observable<any> {
+    const suffix = `EndOfDayCalibrationFunction/${hour}/${minute}/${calibration}`;
+    return this.http.get(this.apiUrl + suffix);
   }
 }

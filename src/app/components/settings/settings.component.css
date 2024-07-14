@@ -81,3 +81,32 @@ button[mat-button].remove-button:active {
 .form-group .mat-select {
   display: block;
 }
+
+mat-spinner {
+  margin-left: 10px;
+}
+
+.success-message-box {
+  display: flex;
+  align-items: center;
+  background-color: #e0f7fa;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin: 0 10px;
+  flex-grow: 1;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+button[mat-icon-button] {
+  margin-left: auto;
+}

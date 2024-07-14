@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
+import { VehiclesService } from 'src/app/services/vehicles.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,8 +14,11 @@ export class SettingsComponent implements OnInit {
   calibrationForm!: FormGroup;
   alertsForm!: FormGroup;
   timeIntervals: string[] = [];
+  isLoading = false;
+  isSuccess = false;
+  errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private vehicleService: VehiclesService) { }
 
   ngOnInit(): void {
     this.calibrationForm = this.formBuilder.group({
@@ -64,7 +68,32 @@ export class SettingsComponent implements OnInit {
 
   submitCalibration() {
     if (this.calibrationForm.valid) {
-      console.log(this.calibrationForm.value);
+      this.isLoading = true;
+      this.isSuccess = false;
+      this.errorMessage = '';
+
+      const time = this.calibrationForm.value.time.split(':');
+      const hour = parseInt(time[0], 10);
+      const minute = parseInt(time[1], 10);
+      const vehicleCount = this.calibrationForm.value.vehicleCount;
+
+      this.vehicleService.submitCalibration(hour, minute, vehicleCount).subscribe(
+        response => {
+          this.isLoading = false;
+          this.isSuccess = true;
+          console.log('Calibration submitted successfully', response);
+          // Optionally reset the form or other actions
+        },
+        error => {
+          this.isLoading = false;
+          this.errorMessage = 'Error submitting calibration. Please try again.';
+          console.error('Error submitting calibration', error);
+        }
+      );
     }
+  }
+
+  dismissSuccessMessage() {
+    this.isSuccess = false;
   }
 }
