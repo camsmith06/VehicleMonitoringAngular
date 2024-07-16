@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { VehiclesService } from 'src/app/services/vehicles.service';
+import { AlertContact } from 'src/app/models/alert-contact';
 
 @Component({
   selector: 'app-settings',
@@ -30,8 +31,11 @@ export class SettingsComponent implements OnInit {
       alerts: this.formBuilder.array([])
     });
 
-    // Initialize with one alert
-    this.addAlert();
+    // Fetch alert contacts and populate the form
+    this.vehicleService.getAlertContacts().subscribe((contacts: AlertContact[]) => {
+      contacts.forEach(contact => this.addAlert(contact));
+    });
+
     this.generateTimeIntervals();
   }
 
@@ -49,20 +53,20 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  addAlert(): void {
-    this.alerts.push(this.createAlert());
+  addAlert(contact?: AlertContact): void {
+    this.alerts.push(this.createAlert(contact));
   }
 
   removeAlert(index: number): void {
     this.alerts.removeAt(index);
   }
 
-  createAlert(): FormGroup {
+  createAlert(contact?: AlertContact): FormGroup {
     return this.formBuilder.group({
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contactMethod: ['Email', Validators.required]
+      name: [contact ? contact.name : '', Validators.required],
+      phoneNumber: [contact ? contact.phoneNumber : '', Validators.required],
+      email: [contact ? contact.email : '', [Validators.required, Validators.email]],
+      contactMethod: [contact ? (contact.contactViaText ? 'Text' : 'Email') : 'Email', Validators.required]
     });
   }
 
