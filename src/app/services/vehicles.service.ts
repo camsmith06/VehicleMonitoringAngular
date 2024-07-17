@@ -24,4 +24,8 @@ export class VehiclesService {
   getAlertContacts() : Observable<AlertContact[]> {
     return this.http.get<AlertContact[]>(this.apiUrl + 'GetAlertContactsFunction');
   }
+
+  addAlertContact(contact: AlertContact): Observable<any> {
+    return this.http.post(this.apiUrl + 'AddAlertContactFunction', contact);
+  }
 }

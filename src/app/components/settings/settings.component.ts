@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { VehiclesService } from 'src/app/services/vehicles.service';
 import { AlertContact } from 'src/app/models/alert-contact';
@@ -54,7 +54,10 @@ export class SettingsComponent implements OnInit {
   }
 
   addAlert(contact?: AlertContact): void {
-    this.alerts.push(this.createAlert(contact));
+    const alertForm = this.createAlert(contact);
+    alertForm.addControl('isSaving', this.formBuilder.control(false));
+    alertForm.addControl('saveErrorMessage', this.formBuilder.control(''));
+    this.alerts.push(alertForm);
   }
 
   removeAlert(index: number): void {
@@ -68,6 +71,33 @@ export class SettingsComponent implements OnInit {
       email: [contact ? contact.email : '', [Validators.required, Validators.email]],
       contactMethod: [contact ? (contact.contactViaText ? 'Text' : 'Email') : 'Email', Validators.required]
     });
+  }
+
+  saveAlert(alertData: any, index: number): void {
+    const alertControl = this.alerts.at(index) as FormGroup;
+    alertControl.get('isSaving')?.setValue(true);
+    alertControl.get('saveErrorMessage')?.setValue('');
+
+    const newAlert: AlertContact = {
+      partitionKey: 'test',
+      rowKey: 'test2',
+      name: alertData.name,
+      phoneNumber: alertData.phoneNumber,
+      email: alertData.email,
+      contactViaText: alertData.contactMethod === 'Text'
+    };
+
+    this.vehicleService.addAlertContact(newAlert).subscribe(
+      response => {
+        alertControl.get('isSaving')?.setValue(false);
+        console.log('Alert saved successfully', response);
+      },
+      error => {
+        alertControl.get('isSaving')?.setValue(false);
+        alertControl.get('saveErrorMessage')?.setValue('Error saving alert. Please try again.');
+        console.error('Error saving alert', error);
+      }
+    );
   }
 
   submitCalibration() {

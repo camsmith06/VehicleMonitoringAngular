@@ -69,12 +69,14 @@
                         <mat-label>Contact Method</mat-label>
                         <mat-select formControlName="contactMethod">
                             <mat-option value="Email">Email</mat-option>
-                            <mat-option value="Text">Text</mat-option>
-                            <mat-option value="No Contact">No Contact</mat-option>
+                            <mat-option value="Text" disabled>Text (Coming Soon)</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <button mat-button (click)="removeAlert(i)">Remove</button>
+                    <button mat-button (click)="saveAlert(alert.value, i)" [disabled]="alert.get('isSaving')?.value">Save</button>
+                    <mat-spinner *ngIf="alert.get('isSaving')?.value" diameter="30"></mat-spinner>
+                    <p *ngIf="alert.get('saveErrorMessage')?.value" class="error-message">{{ alert.get('saveErrorMessage')?.value }}</p>
                 </div>
             </div>
         </form>
