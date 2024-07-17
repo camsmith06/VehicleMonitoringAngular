@@ -51,28 +51,29 @@
       <div formArrayName="alerts" class="form-group">
         <div *ngFor="let alert of alerts.controls; let i = index" [formGroupName]="i" class="form-group">
           <mat-form-field>
-            <input matInput placeholder="Name" formControlName="name">
+            <input matInput placeholder="Name" formControlName="name" [readonly]="!alert.get('isNew')?.value">
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+            <input matInput placeholder="Phone Number" formControlName="phoneNumber" [readonly]="!alert.get('isNew')?.value">
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Email Address" formControlName="email">
+            <input matInput placeholder="Email Address" formControlName="email" [readonly]="!alert.get('isNew')?.value">
           </mat-form-field>
           <mat-form-field>
             <mat-label>Contact Method</mat-label>
-            <mat-select formControlName="contactMethod">
+            <mat-select formControlName="contactMethod" [disabled]="!alert.get('isNew')?.value">
               <mat-option value="Email">Email</mat-option>
               <mat-option value="Text" disabled>Text (Coming Soon)</mat-option>
             </mat-select>
           </mat-form-field>
+          <button mat-button *ngIf="alert.get('isNew')?.value" (click)="saveAlert(alert.value, i)" [disabled]="alert.get('isSaving')?.value">Save</button>
+          <mat-spinner *ngIf="alert.get('isSaving')?.value" diameter="30"></mat-spinner>
+          <p *ngIf="alert.get('saveErrorMessage')?.value" class="error-message">{{ alert.get('saveErrorMessage')?.value }}</p>
           <button mat-button (click)="removeAlert(i)">Remove</button>
-          <button mat-button (click)="saveAlert(alert.value, i)" [disabled]="alert.get('isSaving')?.value">Save</button>
-                    <mat-spinner *ngIf="alert.get('isSaving')?.value" diameter="30"></mat-spinner>
-                    <p *ngIf="alert.get('saveErrorMessage')?.value" class="error-message">{{ alert.get('saveErrorMessage')?.value }}</p>
         </div>
       </div>
     </form>
-    <button mat-button (click)="addAlert()">Add Alert</button>
+    <button mat-button (click)="addAlert()">Add Alert Contact</button>
   </mat-expansion-panel>
+  
 </mat-accordion>

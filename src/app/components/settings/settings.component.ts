@@ -93,10 +93,9 @@ export class SettingsComponent implements OnInit {
       rowKey: [contact ? contact.rowKey : ''],
       isSaving: [false],
       saveErrorMessage: [''],
-      isNew: [!contact] 
+      isNew: [!contact]
     });
   }
-  
 
   saveAlert(alertData: any, index: number): void {
     const alertControl = this.alerts.at(index) as FormGroup;
@@ -109,7 +108,7 @@ export class SettingsComponent implements OnInit {
       email: alertData.email,
       contactViaText: alertData.contactMethod === 'Text',
       rowKey: '',
-      partitionKey: ''
+      partitionKey: '',
     };
 
     this.vehicleService.addAlertContact(newAlert).subscribe(
