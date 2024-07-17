@@ -1,85 +1,78 @@
 <h1>Settings</h1>
 
 <div class="example-action-buttons">
-    <button mat-button (click)="accordion.openAll()">Expand All</button>
-    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+  <button mat-button (click)="accordion.openAll()">Expand All</button>
+  <button mat-button (click)="accordion.closeAll()">Collapse All</button>
 </div>
+
 <mat-accordion class="example-headers-align" multi>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Calibration
-            </mat-panel-title>
-            <mat-panel-description>
-                Adjust calibration settings
-                <mat-icon>settings</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <form [formGroup]="calibrationForm" class="form-group">
-            <mat-form-field>
-                <mat-label>Time</mat-label>
-                <mat-select formControlName="time">
-                    <ng-container *ngFor="let time of timeIntervals">
-                        <mat-option [value]="time">{{ time }}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Vehicle Count" formControlName="vehicleCount">
-            </mat-form-field>
-            <button mat-button (click)="submitCalibration()" [disabled]="isLoading">Submit</button>
-            <mat-spinner *ngIf="isLoading" diameter="30"></mat-spinner>
-            <div *ngIf="isSuccess" class="success-message-box">
-                <mat-icon color="primary">check_circle</mat-icon>
-                <p class="success-message">Calibration submitted successfully!</p>
-                <button mat-icon-button (click)="dismissSuccessMessage()">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </div>
-            <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
-        </form>
-    </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Calibration</mat-panel-title>
+      <mat-panel-description>
+        Adjust calibration settings
+        <mat-icon>settings</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form [formGroup]="calibrationForm" class="form-group">
+      <mat-form-field>
+        <mat-label>Time</mat-label>
+        <mat-select formControlName="time">
+          <ng-container *ngFor="let time of timeIntervals">
+            <mat-option [value]="time">{{ time }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Vehicle Count" formControlName="vehicleCount">
+      </mat-form-field>
+      <button mat-button (click)="submitCalibration()" [disabled]="isLoading">Submit</button>
+      <mat-spinner *ngIf="isLoading" diameter="30"></mat-spinner>
+      <div *ngIf="isSuccess" class="success-message-box">
+        <mat-icon color="primary">check_circle</mat-icon>
+        <p class="success-message">Calibration submitted successfully!</p>
+        <button mat-icon-button (click)="dismissSuccessMessage()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    </form>
+  </mat-expansion-panel>
 
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Alerts
-            </mat-panel-title>
-            <mat-panel-description>
-                Choose who/how to be alerted
-                <mat-icon>textsms</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <form [formGroup]="alertsForm">
-            <div formArrayName="alerts" class="form-group">
-                <div *ngFor="let alert of alerts.controls; let i = index" [formGroupName]="i" class="form-group">
-                    <mat-form-field>
-                        <input matInput placeholder="Name" formControlName="name">
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <input matInput placeholder="Email Address" formControlName="email">
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <mat-label>Contact Method</mat-label>
-                        <mat-select formControlName="contactMethod">
-                            <mat-option value="Email">Email</mat-option>
-                            <mat-option value="Text" disabled>Text (Coming Soon)</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <button mat-button (click)="removeAlert(i)">Remove</button>
-                    <button mat-button (click)="saveAlert(alert.value, i)" [disabled]="alert.get('isSaving')?.value">Save</button>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Alerts</mat-panel-title>
+      <mat-panel-description>
+        Choose who/how to be alerted
+        <mat-icon>textsms</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <form [formGroup]="alertsForm">
+      <div formArrayName="alerts" class="form-group">
+        <div *ngFor="let alert of alerts.controls; let i = index" [formGroupName]="i" class="form-group">
+          <mat-form-field>
+            <input matInput placeholder="Name" formControlName="name">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Email Address" formControlName="email">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Contact Method</mat-label>
+            <mat-select formControlName="contactMethod">
+              <mat-option value="Email">Email</mat-option>
+              <mat-option value="Text" disabled>Text (Coming Soon)</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-button (click)="removeAlert(i)">Remove</button>
+          <button mat-button (click)="saveAlert(alert.value, i)" [disabled]="alert.get('isSaving')?.value">Save</button>
                     <mat-spinner *ngIf="alert.get('isSaving')?.value" diameter="30"></mat-spinner>
                     <p *ngIf="alert.get('saveErrorMessage')?.value" class="error-message">{{ alert.get('saveErrorMessage')?.value }}</p>
-                </div>
-            </div>
-        </form>
-        <button mat-button (click)="addAlert()">Add Alert</button>
-    </mat-expansion-panel>
+        </div>
+      </div>
+    </form>
+    <button mat-button (click)="addAlert()">Add Alert</button>
+  </mat-expansion-panel>
 </mat-accordion>

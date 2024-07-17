@@ -21,11 +21,19 @@ export class VehiclesService {
     return this.http.get(this.apiUrl + suffix);
   }
 
+  deleteAlertContact(rowKey: string): Observable<any> {
+    const suffix = `DeleteAlertContact/${rowKey}`;
+    const headers = new HttpHeaders();
+    return this.http.post(this.apiUrl + suffix, headers);
+  }
+
   getAlertContacts() : Observable<AlertContact[]> {
     return this.http.get<AlertContact[]>(this.apiUrl + 'GetAlertContactsFunction');
   }
 
-  addAlertContact(contact: AlertContact): Observable<any> {
-    return this.http.post(this.apiUrl + 'AddAlertContactFunction', contact);
+  addAlertContact(alertContact: AlertContact): Observable<any> {
+    const url = `${this.apiUrl}/AddAlertContact`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, alertContact, { headers });
   }
 }
