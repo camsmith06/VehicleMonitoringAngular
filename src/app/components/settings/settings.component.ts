@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { VehiclesService } from 'src/app/services/vehicles.service';
+import { AlertContact } from 'src/app/models/alert-contact';
 
 @Component({
   selector: 'app-settings',
@@ -30,8 +31,7 @@ export class SettingsComponent implements OnInit {
       alerts: this.formBuilder.array([])
     });
 
-    // Initialize with one alert
-    this.addAlert();
+    this.fetchAlertContacts();
     this.generateTimeIntervals();
   }
 
@@ -49,21 +49,80 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  addAlert(): void {
-    this.alerts.push(this.createAlert());
+  fetchAlertContacts() {
+    this.vehicleService.getAlertContacts().subscribe((contacts: AlertContact[]) => {
+      this.alerts.clear();
+      contacts.forEach(contact => this.addAlert(contact));
+    });
+  }
+
+  addAlert(contact?: AlertContact): void {
+    const alertForm = this.createAlert(contact);
+    this.alerts.push(alertForm);
   }
 
   removeAlert(index: number): void {
-    this.alerts.removeAt(index);
+    const alertControl = this.alerts.at(index) as FormGroup;
+    const rowKey = alertControl.get('rowKey')?.value;
+
+    if (rowKey) {
+      alertControl.get('isSaving')?.setValue(true);
+      this.vehicleService.deleteAlertContact(rowKey).subscribe(
+        response => {
+          alertControl.get('isSaving')?.setValue(false);
+          console.log('Alert deleted successfully', response);
+          this.alerts.removeAt(index);
+        },
+        error => {
+          alertControl.get('isSaving')?.setValue(false);
+          alertControl.get('saveErrorMessage')?.setValue('Error deleting alert. Please try again.');
+          console.error('Error deleting alert', error);
+        }
+      );
+    } else {
+      this.alerts.removeAt(index);
+    }
   }
 
-  createAlert(): FormGroup {
+  createAlert(contact?: AlertContact): FormGroup {
     return this.formBuilder.group({
-      name: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contactMethod: ['Email', Validators.required]
+      name: [{ value: contact ? contact.name : '', disabled: !!contact }, Validators.required],
+      phoneNumber: [{ value: contact ? contact.phoneNumber : '', disabled: !!contact }, Validators.required],
+      email: [{ value: contact ? contact.email : '', disabled: !!contact }, [Validators.required, Validators.email]],
+      contactMethod: [{ value: contact ? (contact.contactViaText ? 'Text' : 'Email') : 'Email', disabled: !!contact }, Validators.required],
+      rowKey: [contact ? contact.rowKey : ''],
+      isSaving: [false],
+      saveErrorMessage: [''],
+      isNew: [!contact]
     });
+  }
+
+  saveAlert(alertData: any, index: number): void {
+    const alertControl = this.alerts.at(index) as FormGroup;
+    alertControl.get('isSaving')?.setValue(true);
+    alertControl.get('saveErrorMessage')?.setValue('');
+
+    const newAlert: AlertContact = {
+      name: alertData.name,
+      phoneNumber: alertData.phoneNumber,
+      email: alertData.email,
+      contactViaText: alertData.contactMethod === 'Text',
+      rowKey: '',
+      partitionKey: '',
+    };
+
+    this.vehicleService.addAlertContact(newAlert).subscribe(
+      response => {
+        alertControl.get('isSaving')?.setValue(false);
+        console.log('Alert saved successfully', response);
+        this.fetchAlertContacts();  // Fetch updated alert contacts after saving
+      },
+      error => {
+        alertControl.get('isSaving')?.setValue(false);
+        alertControl.get('saveErrorMessage')?.setValue('Error saving alert. Please try again.');
+        console.error('Error saving alert', error);
+      }
+    );
   }
 
   submitCalibration() {
@@ -82,7 +141,6 @@ export class SettingsComponent implements OnInit {
           this.isLoading = false;
           this.isSuccess = true;
           console.log('Calibration submitted successfully', response);
-          // Optionally reset the form or other actions
         },
         error => {
           this.isLoading = false;
